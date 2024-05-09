@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var weatherData: WeatherData?
+    @State private var forecastData: ForecastData?
     @StateObject var viewModel = APICalls()
     var body: some View {
         VStack {
@@ -17,11 +18,26 @@ struct ContentView: View {
                 .foregroundStyle(.tint)
             Text(weatherData?.location.country ?? "Fail")
             Text(weatherData?.location.name ?? "Fail")
+            
+            AsyncImage(url: URL(string: "https:" + (weatherData?.current.condition.icon ?? ""))) { image in
+                
+                image.resizable()
+                    .frame(width: 50, height: 50)
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+            } placeholder: {
+                Circle()
+                    .foregroundColor(.primary)
+            }
+            
+            
         }
         .padding()
         .task {
             do {
-                weatherData = try await viewModel.getWeatherData(location: "London")
+                weatherData = try await viewModel.getWeatherData(location: "Marrickville")
+                forecastData = try await viewModel.getForecast(location: "Marrickville")
+                print(forecastData!.forecast.forecastday[0])
             } catch GHError.invalidURL {
                 print("InvalidURL")
             } catch GHError.invalidData {

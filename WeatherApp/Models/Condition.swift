@@ -14,6 +14,8 @@ import Foundation
 //}
 
 struct Condition: Codable {
-    let text, icon: String
+    let text: String
+    let icon: String
     let code: Int
+    
 }

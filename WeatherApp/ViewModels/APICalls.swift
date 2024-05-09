@@ -21,6 +21,8 @@ class APICalls: ObservableObject {
         
     }
     
+    // Implement Generics
+    
     func getWeatherData(location: String) async throws -> WeatherData {
         let endPoint = "https://api.weatherapi.com/v1/current.json?key=\(API_KEY)&q=\(location)"
         guard let url = URL(string: endPoint) else {
@@ -38,7 +40,8 @@ class APICalls: ObservableObject {
             throw GHError.invalidData
         }
     }
-    
+
+
     
     func searchQuery(query: String) async throws -> [Location] {
         let endPoint = "https://api.weatherapi.com/v1/search.json?key=\(API_KEY)&q=\(query)"
@@ -59,8 +62,8 @@ class APICalls: ObservableObject {
         }
     }
     
-    func getForecast(location: String) async throws -> Forecast {
-        let endPoint = "https://api.weatherapi.com/v1/forecast.json?key=\(API_KEY)&q=\(location)"
+    func getForecast(location: String) async throws -> ForecastData {
+        let endPoint = "https://api.weatherapi.com/v1/forecast.json?key=\(API_KEY)&q=\(location)&day=1"
         guard let url = URL(string: endPoint) else {
             throw GHError.invalidURL
         }
@@ -72,7 +75,9 @@ class APICalls: ObservableObject {
         }
         do {
             let decoder = JSONDecoder()
-            return try decoder.decode(Forecast.self, from: data)
+            var forecastData = try decoder.decode(ForecastData.self, from: data)
+
+            return try decoder.decode(ForecastData.self, from: data)
         } catch {
             throw GHError.invalidData
         }
