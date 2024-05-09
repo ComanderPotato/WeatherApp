@@ -9,15 +9,20 @@ import Foundation
 
 // Refactor into seperate file
 let API_KEY = "78f67b17b64a41acbbb22331240905"
-
+enum GHError: Error {
+    case invalidURL
+    case invalidResponse
+    case invalidData
+    case bad
+}
 // Will refactor just putting scaffold down
-class APICalls: Observable {
+class APICalls: ObservableObject {
     init() {
         
     }
     
     func getWeatherData(location: String) async throws -> WeatherData {
-        let endPoint = "http://api.weatherapi.com/v1/current.json?key=\(API_KEY)&q=\(location)"
+        let endPoint = "https://api.weatherapi.com/v1/current.json?key=\(API_KEY)&q=\(location)"
         guard let url = URL(string: endPoint) else {
             throw GHError.invalidURL
         }
@@ -36,7 +41,7 @@ class APICalls: Observable {
     
     
     func searchQuery(query: String) async throws -> [Location] {
-        let endPoint = "http://api.weatherapi.com/v1/search.json?key=\(API_KEY)&q=\(query)"
+        let endPoint = "https://api.weatherapi.com/v1/search.json?key=\(API_KEY)&q=\(query)"
         guard let url = URL(string: endPoint) else {
             throw GHError.invalidURL
         }
@@ -55,7 +60,7 @@ class APICalls: Observable {
     }
     
     func getForecast(location: String) async throws -> Forecast {
-        let endPoint = "http://api.weatherapi.com/v1/forecast.json?key=\(API_KEY)&q=\(location)"
+        let endPoint = "https://api.weatherapi.com/v1/forecast.json?key=\(API_KEY)&q=\(location)"
         guard let url = URL(string: endPoint) else {
             throw GHError.invalidURL
         }
@@ -74,7 +79,7 @@ class APICalls: Observable {
     }
     
     func getAstronomy(location: String) async throws -> AstronomyData {
-        let endPoint = "http://api.weatherapi.com/v1/astronomy.json?key=\(API_KEY)&q=\(location)"
+        let endPoint = "https://api.weatherapi.com/v1/astronomy.json?key=\(API_KEY)&q=\(location)"
         guard let url = URL(string: endPoint) else {
             throw GHError.invalidURL
         }
