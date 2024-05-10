@@ -20,31 +20,9 @@ enum APIRequest: String {
     case forecast = "forecast"
     case search = "search"
 }
-// Will refactor just putting scaffold down
 class APICalls: ObservableObject {
     init() {
-        
     }
-    
-    // Implement Generics
-    
-//    func getWeatherData(location: String) async throws -> WeatherData {
-//        let endPoint = "https://api.weatherapi.com/v1/current.json?key=\(API_KEY)&q=\(location)"
-//        guard let url = URL(string: endPoint) else {
-//            throw GHError.invalidURL
-//        }
-//        let (data, response) = try await URLSession.shared.data(from: url)
-//        
-//        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-//            throw GHError.invalidResponse
-//        }
-//        do {
-//            let decoder = JSONDecoder()
-//            return try decoder.decode(WeatherData.self, from: data)
-//        } catch {
-//            throw GHError.invalidData
-//        }
-//    }
     func getWeatherData<T: Codable>(location: String) async throws -> T {
         return try await apiCall(request: APIRequest.current, location: location)
     }
