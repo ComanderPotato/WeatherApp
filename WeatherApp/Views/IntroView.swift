@@ -7,9 +7,20 @@
 
 import SwiftUI
 
+// prompt current location
+// placeholder design
+
+
 struct IntroView: View {
     var body: some View {
-        Text("App Name")
+        ZStack {
+            Rectangle()
+                .fill()
+                .ignoresSafeArea()
+            Text("The Best Weather App Ever") // insert name
+                .foregroundColor(.white)
+                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+        }
     }
 }
 
