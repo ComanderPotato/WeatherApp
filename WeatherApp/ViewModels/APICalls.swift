@@ -15,16 +15,26 @@ enum GHError: Error {
     case invalidData
     case bad
 }
-// Will refactor just putting scaffold down
+enum APIRequest: String {
+    case current = "current"
+    case forecast = "forecast"
+    case search = "search"
+}
 class APICalls: ObservableObject {
     init() {
-        
+    }
+    func getWeatherData<T: Codable>(location: String) async throws -> T {
+        return try await apiCall(request: APIRequest.current, location: location)
+    }
+    func searchQuery<T: Codable>(searchQuery: String) async throws -> T {
+        return try await apiCall(request: APIRequest.search, location: searchQuery)
+    }
+    func getForecastData<T: Codable>(location: String, days: String) async throws -> T {
+        return try await apiCall(request: APIRequest.forecast, location: location, days: days)
     }
     
-    // Implement Generics
-    
-    func getWeatherData(location: String) async throws -> WeatherData {
-        let endPoint = "https://api.weatherapi.com/v1/current.json?key=\(API_KEY)&q=\(location)"
+    func apiCall<T: Codable>(request: APIRequest, location: String, days: String? = "") async throws -> T {
+        let endPoint = "https://api.weatherapi.com/v1/\(request.rawValue).json?key=\(API_KEY)&q=\(location)\(days != "" ? "&days=\(days!)" : "")"
         guard let url = URL(string: endPoint) else {
             throw GHError.invalidURL
         }
@@ -35,71 +45,9 @@ class APICalls: ObservableObject {
         }
         do {
             let decoder = JSONDecoder()
-            return try decoder.decode(WeatherData.self, from: data)
+            return try decoder.decode(T.self, from: data)
         } catch {
             throw GHError.invalidData
         }
-    }
-
-
-    
-    func searchQuery(query: String) async throws -> [Location] {
-        let endPoint = "https://api.weatherapi.com/v1/search.json?key=\(API_KEY)&q=\(query)"
-        guard let url = URL(string: endPoint) else {
-            throw GHError.invalidURL
-        }
-        let (data, response) = try await URLSession.shared.data(from: url)
-        
-        print(data)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw GHError.invalidResponse
-        }
-        do {
-            let decoder = JSONDecoder()
-            return try decoder.decode([Location].self, from: data)
-        } catch {
-            throw GHError.invalidData
-        }
-    }
-    
-    func getForecast(location: String) async throws -> ForecastData {
-        let endPoint = "https://api.weatherapi.com/v1/forecast.json?key=\(API_KEY)&q=\(location)&day=1"
-        guard let url = URL(string: endPoint) else {
-            throw GHError.invalidURL
-        }
-        let (data, response) = try await URLSession.shared.data(from: url)
-        
-        print(data)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw GHError.invalidResponse
-        }
-        do {
-            let decoder = JSONDecoder()
-            var forecastData = try decoder.decode(ForecastData.self, from: data)
-
-            return try decoder.decode(ForecastData.self, from: data)
-        } catch {
-            throw GHError.invalidData
-        }
-    }
-    
-    func getAstronomy(location: String) async throws -> AstronomyData {
-        let endPoint = "https://api.weatherapi.com/v1/astronomy.json?key=\(API_KEY)&q=\(location)"
-        guard let url = URL(string: endPoint) else {
-            throw GHError.invalidURL
-        }
-        let (data, response) = try await URLSession.shared.data(from: url)
-        
-        print(data)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw GHError.invalidResponse
-        }
-        do {
-            let decoder = JSONDecoder()
-            return try decoder.decode(AstronomyData.self, from: data)
-        } catch {
-            throw GHError.invalidData
-        }
-        
     }
 }

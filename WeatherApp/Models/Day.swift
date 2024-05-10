@@ -8,14 +8,26 @@
 import Foundation
 
 struct Day: Codable {
-    let maxtempC, maxtempF, mintempC: Double
-    let mintempF: Int
-    let avgtempC, avgtempF, maxwindMph, maxwindKph: Double
-    let totalprecipMm, totalprecipIn: Double
-    let totalsnowCM, avgvisKM, avgvisMiles, avghumidity: Int
-    let dailyWillItRain, dailyChanceOfRain, dailyWillItSnow, dailyChanceOfSnow: Int
+    let maxtempC: Double
+    let maxtempF: Double
+    let mintempC: Double
+    let mintempF: Double
+    let avgtempC: Double
+    let avgtempF: Double
+    let maxwindMph: Double
+    let maxwindKph: Double
+    let totalprecipMm: Double
+    let totalprecipIn: Double
+    let totalsnowCM: Double
+    let avgvisKM: Double
+    let avgvisMiles: Double
+    let avghumidity: Int
     let condition: Condition
-    let uv: Int
+    let uv: Double
+    let dailyWillItRain: Int
+    let dailyChanceOfRain: Int
+    let dailyWillItSnow: Int
+    let dailyChanceOfSnow: Int
 
     enum CodingKeys: String, CodingKey {
         case maxtempC = "maxtemp_c"
