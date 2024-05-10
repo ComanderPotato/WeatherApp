@@ -15,7 +15,7 @@ struct IntroView: View {
     @State private var locationLoaded = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Rectangle()
                     .fill()
@@ -23,7 +23,7 @@ struct IntroView: View {
                 VStack {
                     if locationLoaded {
                         NavigationLink(destination: MainDashboardView()) {
-                            Text("Loaded")
+                            Text(introViewModel.currentCity)
                                 .foregroundColor(.white)
                                 .font(.title)
                         }

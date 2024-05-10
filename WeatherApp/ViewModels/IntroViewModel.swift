@@ -6,56 +6,70 @@
 //
 
 // Current Location
-// Current Location
 import CoreLocation
 
 class IntroViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     var locationManager: CLLocationManager!
     @Published var currentCity: String = "Loading..."
     var error: Error?
-
+    
     func onViewDidLoad() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
+        
+        let authorizationStatus = locationManager.authorizationStatus
+        handleAuthorizationStatus(authorizationStatus)
+        print(authorizationStatus)
+        
+        if authorizationStatus == .notDetermined {
+            locationManager.requestAlwaysAuthorization()
+        }
     }
     
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .authorizedWhenInUse, .authorizedAlways:
-            if CLLocationManager.locationServicesEnabled() {
-                locationManager.startUpdatingLocation()
-            }
-        case .denied, .restricted, .notDetermined:
-            print("Location services not authorised")
+    func handleAuthorizationStatus(_ status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+        case .notDetermined:
+            locationManager.requestAlwaysAuthorization()
+            print("here")
+        case .restricted, .denied:
+            currentCity = "Unavailable"
+            break
         @unknown default:
-            fatalError("Unhandled case in location authorisation status")
+            break
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
+        guard let userLocation = locations.first else { return }
+        
         let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+        geocoder.reverseGeocodeLocation(userLocation) { [weak self] (placemarks, error) in
+            guard let self = self else { return }
+            
             if let error = error {
-                self.error = error
+                print("Error in reverseGeocode: \(error.localizedDescription)")
                 return
             }
             
-            if let placemark = placemarks?.first {
-                if let city = placemark.locality {
-                    self.currentCity = city
-                } else if let suburb = placemark.subLocality {
-                    self.currentCity = suburb
-                } else {
-                    self.currentCity = "Unknown"
-                }
+            guard let placemark = placemarks?.first else { return }
+            
+            if let city = placemark.locality {
+                self.currentCity = city
+            } else {
+                self.currentCity = "Unknown"
             }
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error \(error)")
         self.error = error
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        handleAuthorizationStatus(manager.authorizationStatus)
     }
 }
