@@ -10,16 +10,37 @@ import SwiftUI
 // prompt current location
 // placeholder design
 
-
 struct IntroView: View {
+    @ObservedObject var introViewModel = IntroViewModel()
+    @State private var locationLoaded = false
+
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill()
-                .ignoresSafeArea()
-            Text("The Best Weather App Ever") // insert name
-                .foregroundColor(.white)
-                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            ZStack {
+                Rectangle()
+                    .fill()
+                    .ignoresSafeArea()
+                VStack {
+                    if locationLoaded {
+                        NavigationLink(destination: MainDashboardView()) {
+                            Text("Loaded")
+                                .foregroundColor(.white)
+                                .font(.title)
+                        }
+                    } else {
+                        Text("Loading...")
+                            .foregroundColor(.white)
+                            .font(.title)
+                    }
+                }
+            }
+            .onAppear {
+                introViewModel.onViewDidLoad()
+            }
+            .onReceive(introViewModel.$currentCity) { _ in
+                self.locationLoaded = true
+            }
+            .navigationBarHidden(true)
         }
     }
 }

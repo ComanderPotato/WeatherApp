@@ -6,19 +6,32 @@
 //
 
 // Current Location
-
+// Current Location
 import CoreLocation
 
-class IntroViewModel: NSObject, CLLocationManagerDelegate {
+class IntroViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     var locationManager: CLLocationManager!
-    var currentCity: String = ""
+    @Published var currentCity: String = "Loading..."
     var error: Error?
 
     func onViewDidLoad() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAlwaysAuthorization()
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            if CLLocationManager.locationServicesEnabled() {
+                locationManager.startUpdatingLocation()
+            }
+        case .denied, .restricted, .notDetermined:
+            print("Location services not authorised")
+        @unknown default:
+            fatalError("Unhandled case in location authorisation status")
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
