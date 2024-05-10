@@ -69,15 +69,12 @@ class APICalls: ObservableObject {
         }
         let (data, response) = try await URLSession.shared.data(from: url)
         
-        print(data)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             throw GHError.invalidResponse
         }
         do {
-            let decoder = JSONDecoder()
-            var forecastData = try decoder.decode(ForecastData.self, from: data)
-
-            return try decoder.decode(ForecastData.self, from: data)
+            
+            return try JSONDecoder().decode(ForecastData.self, from: data)
         } catch {
             throw GHError.invalidData
         }

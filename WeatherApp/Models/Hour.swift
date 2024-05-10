@@ -10,20 +10,37 @@ import Foundation
 struct Hour: Codable {
     let timeEpoch: Int
     let time: String
-    let tempC, tempF: Double
-    let isDay: Int
+    let tempC: Double
+    let tempF: Double
     let condition: Condition
-    let windMph, windKph: Double
+    let windMph: Double
+    let windKph: Double
     let windDegree: Int
     let windDir: String
-    let pressureMB: Int
-    let pressureIn, precipMm, precipIn: Double
-    let snowCM, humidity, cloud: Int
-    let feelslikeC, feelslikeF, windchillC, windchillF: Double
-    let heatindexC, heatindexF, dewpointC, dewpointF: Double
-    let willItRain, chanceOfRain, willItSnow, chanceOfSnow: Int
-    let visKM, visMiles: Double
-    let gustMph, gustKph: Double
+    let pressureMB: Double
+    let pressureIn: Double
+    let precipMm: Double
+    let precipIn: Double
+    let snowCM: Double
+    let humidity: Int
+    let cloud: Int
+    let feelslikeC: Double
+    let feelslikeF: Double
+    let windchillC: Double
+    let windchillF: Double
+    let heatindexC: Double
+    let heatindexF: Double
+    let dewpointC: Double
+    let dewpointF: Double
+    let willItRain: Int
+    let willItSnow: Int
+    let isDay: Int
+    let visKM: Double
+    let visMiles: Double
+    let chanceOfRain: Int
+    let chanceOfSnow: Int
+    let gustMph: Double
+    let gustKph: Double
     let uv: Double
 
     enum CodingKeys: String, CodingKey {

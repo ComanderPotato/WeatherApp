@@ -30,14 +30,14 @@ struct ContentView: View {
                     .foregroundColor(.primary)
             }
             
-            
+            Text(forecastData?.forecast.forecastday.first?.day.mintempC.formatted() ?? "")
+            Text(forecastData?.forecast.forecastday.first?.day.maxtempC.formatted() ?? "")
         }
         .padding()
         .task {
             do {
-                weatherData = try await viewModel.getWeatherData(location: "Marrickville")
-                forecastData = try await viewModel.getForecast(location: "Marrickville")
-                print(forecastData!.forecast.forecastday[0])
+                weatherData = try await viewModel.getWeatherData(location: "Sydney, Ultimo")
+                forecastData = try await viewModel.getForecast(location: "Sydney, Ultimo")
             } catch GHError.invalidURL {
                 print("InvalidURL")
             } catch GHError.invalidData {
