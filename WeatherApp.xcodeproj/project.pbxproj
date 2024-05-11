@@ -126,15 +126,15 @@
 			isa = PBXGroup;
 			children = (
 				5ABB6D932BEBBBED00FCFEA9 /* ContentView.swift */,
-<<<<<<< HEAD
+ HEAD
 				E582A3172BED2F00004E8657 /* MainView.swift */,
 				E582A31B2BED35E6004E8657 /* SearchView.swift */,
 				E57C4A3F2BEEFF1B0061D333 /* CurrentLocationView.swift */,
 				E5C29A082BEF1A620043BF5D /* WeatherDataListView.swift */,
-=======
+
 				5A05F87A2BEDF76400A1BD4E /* LocationView.swift */,
 				5A05F8802BEE174200A1BD4E /* WeatherHeaderView.swift */,
->>>>>>> branch-tom
+ branch-tom
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -143,12 +143,12 @@
 			isa = PBXGroup;
 			children = (
 				5A05F8762BECB64900A1BD4E /* APICalls.swift */,
-<<<<<<< HEAD
+ HEAD
 				E582A31F2BED3A0B004E8657 /* DataSavingViewModel.swift */,
 				E57C4A332BEEA3A50061D333 /* CurrentLocationManager.swift */,
-=======
+
 				5A05F87C2BEDF82400A1BD4E /* LocationViewModel.swift */,
->>>>>>> branch-tom
+ branch-tom
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -258,13 +258,13 @@
 			files = (
 				5ABB6D942BEBBBED00FCFEA9 /* ContentView.swift in Sources */,
 				5A05F86B2BEC772700A1BD4E /* DayText.swift in Sources */,
-<<<<<<< HEAD
+ HEAD
 				E582A3202BED3A0B004E8657 /* DataSavingViewModel.swift in Sources */,
 				E57C4A402BEEFF1B0061D333 /* CurrentLocationView.swift in Sources */,
 				E582A31E2BED372B004E8657 /* SaveData.swift in Sources */,
-=======
+
 				5A05F87F2BEDF8C600A1BD4E /* APICall.swift in Sources */,
->>>>>>> branch-tom
+ branch-tom
 				5A05F8652BEC76F900A1BD4E /* Condition.swift in Sources */,
 				5A05F8832BEF2D1400A1BD4E /* DummyModels.swift in Sources */,
 				5A05F87D2BEDF82400A1BD4E /* LocationViewModel.swift in Sources */,
