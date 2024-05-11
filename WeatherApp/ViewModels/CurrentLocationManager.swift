@@ -8,7 +8,7 @@
 // Current Location
 import CoreLocation
 
-class IntroViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
+class CurrentLocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     var locationManager: CLLocationManager!
     @Published var currentCity: String = "Loading..."
     var error: Error?

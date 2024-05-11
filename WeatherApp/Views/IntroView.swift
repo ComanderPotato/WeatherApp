@@ -11,8 +11,8 @@ import SwiftUI
 // placeholder design
 
 struct IntroView: View {
-    @ObservedObject var introViewModel = IntroViewModel()
-    @State private var locationLoaded = false
+    @ObservedObject var introViewModel = CurrentLocationManager()
+    @State var locationLoaded = false
 
     var body: some View {
         NavigationStack {
@@ -21,17 +21,9 @@ struct IntroView: View {
                     .fill()
                     .ignoresSafeArea()
                 VStack {
-                    if locationLoaded {
-                        NavigationLink(destination: MainDashboardView()) {
-                            Text(introViewModel.currentCity)
-                                .foregroundColor(.white)
-                                .font(.title)
-                        }
-                    } else {
-                        Text("Loading...")
-                            .foregroundColor(.white)
-                            .font(.title)
-                    }
+                    Text("Loading...")
+                        .foregroundColor(.white)
+                        .font(.title)
                 }
             }
             .onAppear {
