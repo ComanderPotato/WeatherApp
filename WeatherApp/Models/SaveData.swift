@@ -8,16 +8,17 @@
 import Foundation
 
 class SaveData {
-    private var savedLocations = [Location]()
+    private var savedLocations = [String]()
     
     init() {
+        savedLocations.append("Ingleburn") // sample test
     }
     
-    func addLocation(_ location: Location) {
-        savedLocations.append(location)
-    }
+    // save
     
-    // remove func
+    // retrieve
+    
+    //get list
 }
     
 
