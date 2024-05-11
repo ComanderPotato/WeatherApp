@@ -8,8 +8,27 @@
 import SwiftUI
 
 struct LocationView: View {
+    @StateObject var viewModel = LocationViewModel()
+    @State private var forecastData: ForecastData?
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            WeatherHeaderView(location: forecastData?.location ?? createDummyLocation(), forecastDay: forecastData?.forecast.forecastday.first ?? createDummyForecastday())
+        }.task {
+            do {
+                forecastData = try await viewModel.getForecastData(location: "Sydney, Ultimo", days: "5")
+    
+            } catch GHError.invalidURL {
+                print("InvalidURL")
+            } catch GHError.invalidData {
+                print("InvalidData")
+            } catch GHError.invalidResponse {
+                print("InvalidResponse")
+            } catch GHError.bad {
+                print("BOO")
+            } catch {
+                print("Invalid")
+            }
+        }
     }
 }
 
