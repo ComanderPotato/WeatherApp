@@ -12,14 +12,16 @@ struct WeatherDataListView: View {
     @State var forecastData: ForecastData?
     @State var locationName: String
     @State var currentDegrees: Double
-    @State var lowDegrees: String
-    @State var highDegrees: String
+    @State var loDegrees: Double
+    @State var hiDegrees: Double
+    var inputLocation: String
     
-    init() {
+    init(location: String) {
         locationName = "Unknown"
         currentDegrees = 10.0
-        lowDegrees = "0.0"
-        highDegrees = "20.0"
+        loDegrees = 0.0
+        hiDegrees = 20.0
+        inputLocation = location
     }
       
     var body: some View {
@@ -52,12 +54,12 @@ struct WeatherDataListView: View {
                 }
                 Spacer()
                 VStack {
-                    Text("\(String(format: "%.2f", currentDegrees))")
+                    Text("\(String(format: "%.0f", currentDegrees))°C")
                         .font(.title)
                     HStack {
-                        Text("L: " + lowDegrees)
+                        Text("L: \(String(format: "%.0f", loDegrees))°C")
                             .font(.caption)
-                        Text("H: " + highDegrees)
+                        Text("H: \(String(format: "%.0f", hiDegrees))°C")
                             .font(.caption)
                     }
                 }
@@ -69,12 +71,7 @@ struct WeatherDataListView: View {
         }
         .task {
             do {
-                forecastData = try await viewModel.getForecastData(location: "Sydney, Ultimo", days: "5")
-                forecastData?.forecast.forecastday.forEach { forecastDay in
-                    print("Day: ")
-                    print(forecastDay.day.mintempC)
-                    print(forecastDay.day.maxtempC)
-                }
+                forecastData = try await viewModel.getForecastData(location: inputLocation, days: "1")
                 
                 if let location = forecastData?.location.name {
                     locationName = location
@@ -83,8 +80,8 @@ struct WeatherDataListView: View {
                     currentDegrees = currentTemp
                 }
                 if let firstForecastDay = forecastData?.forecast.forecastday.first {
-                    lowDegrees = firstForecastDay.day.mintempC.formatted()
-                    highDegrees = firstForecastDay.day.maxtempC.formatted()
+                    loDegrees = firstForecastDay.day.mintempC
+                    hiDegrees = firstForecastDay.day.maxtempC
                 }
             } catch GHError.invalidURL {
                 print("InvalidURL")
@@ -93,7 +90,7 @@ struct WeatherDataListView: View {
             } catch GHError.invalidResponse {
                 print("InvalidResponse")
             } catch GHError.bad {
-                print("BOO")
+                print("GTFO")
             } catch {
                 print("Invalid")
             }
@@ -102,5 +99,5 @@ struct WeatherDataListView: View {
 }
 
 #Preview {
-    WeatherDataListView()
+    WeatherDataListView(location: "Alice Springs")
 }
