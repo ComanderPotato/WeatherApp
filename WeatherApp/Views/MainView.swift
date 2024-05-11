@@ -14,6 +14,7 @@ import SwiftUI
 struct MainView: View {
     @ObservedObject var locationManager = CurrentLocationManager()
     @State private var searchQuery = ""
+    @State private var locationLoaded = false
 
     var body: some View {
         NavigationStack {
@@ -48,12 +49,22 @@ struct MainView: View {
 
                     // welcome//header box
                     HStack {
-                        Text("Welcome")
-                            .font(.system(size: 36, weight: .bold, design: .rounded))
-                            .padding()
-                            .frame(width: 360)
-                            .foregroundStyle(LinearGradient(colors: [.white, .white], startPoint: .top, endPoint: .bottom)) // experimenting
-                            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 7, style: .continuous))
+                        if locationLoaded {
+                            Text(locationManager.currentCity)
+                                .font(.system(size: 36, weight: .bold, design: .rounded))
+                                .padding()
+                                .frame(width: 360)
+                                .foregroundStyle(LinearGradient(colors: [.white, .white], startPoint: .top, endPoint: .bottom)) // experimenting
+                                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 7, style: .continuous))
+                        }
+                        else {
+                            Text("Welcome")
+                                .font(.system(size: 36, weight: .bold, design: .rounded))
+                                .padding()
+                                .frame(width: 360)
+                                .foregroundStyle(LinearGradient(colors: [.white, .white], startPoint: .top, endPoint: .bottom)) // experimenting
+                                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 7, style: .continuous))
+                        }
                     }
                     .padding()
 
@@ -79,6 +90,14 @@ struct MainView: View {
                     Spacer()
                 }
             }
+            .onAppear {
+                locationManager.onViewDidLoad()
+            }
+            .onReceive(locationManager.$currentCity) { _ in
+                locationLoaded = true
+            }
+
+
         }
     }
 }

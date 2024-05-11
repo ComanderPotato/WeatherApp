@@ -29,7 +29,6 @@
 		E57C4A342BEEA3A50061D333 /* CurrentLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57C4A332BEEA3A50061D333 /* CurrentLocationManager.swift */; };
 		E57C4A402BEEFF1B0061D333 /* CurrentLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57C4A3F2BEEFF1B0061D333 /* CurrentLocationView.swift */; };
 		E582A3182BED2F00004E8657 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E582A3172BED2F00004E8657 /* MainView.swift */; };
-		E582A31A2BED35CC004E8657 /* IntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E582A3192BED35CC004E8657 /* IntroView.swift */; };
 		E582A31C2BED35E6004E8657 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E582A31B2BED35E6004E8657 /* SearchView.swift */; };
 		E582A31E2BED372B004E8657 /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E582A31D2BED372B004E8657 /* SaveData.swift */; };
 		E582A3202BED3A0B004E8657 /* DataSavingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E582A31F2BED3A0B004E8657 /* DataSavingViewModel.swift */; };
@@ -59,7 +58,6 @@
 		E57C4A332BEEA3A50061D333 /* CurrentLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationManager.swift; sourceTree = "<group>"; };
 		E57C4A3F2BEEFF1B0061D333 /* CurrentLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationView.swift; sourceTree = "<group>"; };
 		E582A3172BED2F00004E8657 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		E582A3192BED35CC004E8657 /* IntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
 		E582A31B2BED35E6004E8657 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		E582A31D2BED372B004E8657 /* SaveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveData.swift; sourceTree = "<group>"; };
 		E582A31F2BED3A0B004E8657 /* DataSavingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSavingViewModel.swift; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 				5ABB6D932BEBBBED00FCFEA9 /* ContentView.swift */,
 				E582A3172BED2F00004E8657 /* MainView.swift */,
 				E582A31B2BED35E6004E8657 /* SearchView.swift */,
-				E582A3192BED35CC004E8657 /* IntroView.swift */,
 				E57C4A3F2BEEFF1B0061D333 /* CurrentLocationView.swift */,
 			);
 			path = Views;
@@ -253,7 +250,6 @@
 				5A05F8592BEC76AB00A1BD4E /* Location.swift in Sources */,
 				5A05F8712BEC7DAF00A1BD4E /* AstronomyData.swift in Sources */,
 				5A05F85B2BEC76B700A1BD4E /* Hour.swift in Sources */,
-				E582A31A2BED35CC004E8657 /* IntroView.swift in Sources */,
 				5A05F8672BEC770500A1BD4E /* Current.swift in Sources */,
 				5A05F8632BEC76E800A1BD4E /* Forecast.swift in Sources */,
 				E582A31C2BED35E6004E8657 /* SearchView.swift in Sources */,
