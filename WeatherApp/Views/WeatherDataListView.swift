@@ -15,6 +15,7 @@ struct WeatherDataListView: View {
     @State var loDegrees: Double
     @State var hiDegrees: Double
     var inputLocation: String
+    @State var locationLoaded = false;
     
     init(location: String) {
         locationName = "Unknown"
@@ -26,7 +27,7 @@ struct WeatherDataListView: View {
       
     var body: some View {
         ZStack {
-            Rectangle() // remove this (just for viewing)
+            //Rectangle() // remove this (just for viewing)
             HStack {
                 HStack {
                     Text(locationName)
@@ -36,14 +37,23 @@ struct WeatherDataListView: View {
                         .minimumScaleFactor(0.2)
                         .foregroundStyle(.white)
                         .background(.clear, in: RoundedRectangle(cornerRadius: 7, style: .continuous))
-                    
-                    AsyncImage(url: URL(string: "https:" + (forecastData?.current.condition.icon ?? "" ))) { image in
-                        
-                        image.resizable()
-                            .frame(width: 50, height: 50)
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(Circle())
-                    } placeholder: {
+                    if locationLoaded {
+                        AsyncImage(url: URL(string: "https:" + (forecastData?.current.condition.icon ?? "" ))) { image in
+                            
+                            image.resizable()
+                                .frame(width: 50, height: 50)
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(Circle())
+                        } placeholder: {
+                            Circle()
+                                .foregroundColor(.primary)
+                                .frame(width: 20, height: 20)
+                                .padding()
+                                .background(Color.blue)
+                                .clipShape(Rectangle())
+                        }
+                    }
+                    else {
                         Circle()
                             .foregroundColor(.primary)
                             .frame(width: 20, height: 20)
@@ -83,6 +93,7 @@ struct WeatherDataListView: View {
                     loDegrees = firstForecastDay.day.mintempC
                     hiDegrees = firstForecastDay.day.maxtempC
                 }
+                locationLoaded = true;
             } catch GHError.invalidURL {
                 print("InvalidURL")
             } catch GHError.invalidData {
@@ -99,5 +110,5 @@ struct WeatherDataListView: View {
 }
 
 #Preview {
-    WeatherDataListView(location: "Alice Springs")
+    WeatherDataListView(location: "Sydney")
 }
