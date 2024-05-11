@@ -67,11 +67,9 @@ struct MainView: View {
                         }
                     }
                     .padding()
-
-                    // potentially show current location with brief summary..? or fav saved location
-                    // may have to implement settings? to switch on and off
-                    // if there is time -
-
+                    // current location
+                    
+                    
                     // saved locations
                     VStack(alignment: .leading) {
                         Text("Saved Locations: ")
@@ -101,6 +99,8 @@ struct MainView: View {
         }
     }
 }
+
+// will move
 
 struct UITextFieldWrapper: UIViewRepresentable {
     @Binding var text: String

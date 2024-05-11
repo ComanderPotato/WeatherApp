@@ -20,7 +20,6 @@ class CurrentLocationManager: NSObject, CLLocationManagerDelegate, ObservableObj
         
         let authorizationStatus = locationManager.authorizationStatus
         handleAuthorizationStatus(authorizationStatus)
-        print(authorizationStatus)
         
         if authorizationStatus == .notDetermined {
             locationManager.requestAlwaysAuthorization()
@@ -33,7 +32,6 @@ class CurrentLocationManager: NSObject, CLLocationManagerDelegate, ObservableObj
             locationManager.startUpdatingLocation()
         case .notDetermined:
             locationManager.requestAlwaysAuthorization()
-            print("here")
         case .restricted, .denied:
             currentCity = "Unavailable"
             break
