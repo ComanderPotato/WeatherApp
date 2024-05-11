@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ForecastDataListView: View {
+struct WeatherDataListView: View {
     var viewModel = APICalls()
     @State var forecastData: ForecastData?
     @State var locationName: String
@@ -110,5 +110,5 @@ struct ForecastDataListView: View {
 }
 
 #Preview {
-    ForecastDataListView(location: "Sydney")
+    WeatherDataListView(location: "Sydney")
 }

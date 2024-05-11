@@ -13,9 +13,9 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var locationManager = CurrentLocationManager()
-    @ObservedObject var viewModel = MainViewModel()
     @State private var searchQuery = ""
     @State private var locationLoaded = false
+    @State private var currentLocation = "Unknown"
     
     var body: some View {
         NavigationStack {
@@ -50,75 +50,88 @@ struct MainView: View {
                     
                     // welcome//header box
                     HStack {
-                        Text(locationManager.currentCity)
-                            .font(.system(size: 36, weight: .bold, design: .rounded))
-                            .padding()
-                            .frame(width: 360)
-                            .foregroundStyle(LinearGradient(colors: [.white, .white], startPoint: .top, endPoint: .bottom)) // experimenting
-                            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 7, style: .continuous))
+                        if locationLoaded {
+                            Text(currentLocation)
+                                .font(.system(size: 36, weight: .bold, design: .rounded))
+                                .padding()
+                                .frame(width: 360)
+                                .foregroundStyle(LinearGradient(colors: [.white, .white], startPoint: .top, endPoint: .bottom)) // experimenting
+                                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 7, style: .continuous))
+                        }
+                        else {
+                            Text("Welcome")
+                                .font(.system(size: 36, weight: .bold, design: .rounded))
+                                .padding()
+                                .frame(width: 360)
+                                .foregroundStyle(LinearGradient(colors: [.white, .white], startPoint: .top, endPoint: .bottom)) // experimenting
+                                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 7, style: .continuous))
+                        }
                     }
                     .padding()
                     // current location + saved locations
                     VStack(alignment: .leading) {
                         VStack {
-                            ForEach(viewModel.weatherDataListViews.indices, id: \.self) { index in
-                                viewModel.weatherDataListViews[index]
+                            if locationLoaded {
+                                WeatherDataListView(location: currentLocation)
                             }
+                        }
+                        VStack {
+                            //saved for each
                         }
                         Spacer()
                     }
+
                 }
                 .onAppear {
                     locationManager.onViewDidLoad()
                 }
                 .onReceive(locationManager.$currentCity) { _ in
-                    print(locationManager.currentCity)
-                    /*
-                    if (!viewModel.currentLocationAdded) {
-                        viewModel.addCurrentLocation(location: locationManager.currentCity)
-                    }
-                     */
+                    locationLoaded = true
+                    currentLocation = locationManager.currentCity
                 }
+                
+                
             }
         }
     }
-}
-
-// will move
     
-struct UITextFieldWrapper: UIViewRepresentable {
-    @Binding var text: String
-        
-    func makeUIView(context: Context) -> UITextField {
-        let textField = UITextField()
-        textField.delegate = context.coordinator
-        textField.placeholder = "Search"
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.textColor = .white
-        return textField
-    }
-        
-    func updateUIView(_ uiView: UITextField, context: Context) {
-        uiView.text = text
-    }
-        
-    func makeCoordinator() -> Coordinator {
-        Coordinator(text: $text)
-    }
-        
-    class Coordinator: NSObject, UITextFieldDelegate {
+    // will move
+    
+    struct UITextFieldWrapper: UIViewRepresentable {
         @Binding var text: String
-            
-        init(text: Binding<String>) {
-            _text = text
+        
+        func makeUIView(context: Context) -> UITextField {
+            let textField = UITextField()
+            textField.delegate = context.coordinator
+            // textField.borderStyle = .roundedRect
+            textField.placeholder = "Search"
+            textField.autocorrectionType = .no
+            textField.autocapitalizationType = .none
+            textField.translatesAutoresizingMaskIntoConstraints = false
+            textField.textColor = .white
+            return textField
         }
+        
+        func updateUIView(_ uiView: UITextField, context: Context) {
+            uiView.text = text
+        }
+        
+        func makeCoordinator() -> Coordinator {
+            Coordinator(text: $text)
+        }
+        
+        class Coordinator: NSObject, UITextFieldDelegate {
+            @Binding var text: String
             
-        func textFieldDidChangeSelection(_ textField: UITextField) {
-            text = textField.text ?? ""
-            if text.count >= 200 {
-                text = String(text.prefix(199))
+            init(text: Binding<String>) {
+                _text = text
+            }
+            
+            func textFieldDidChangeSelection(_ textField: UITextField) {
+                text = textField.text ?? ""
+                if text.count >= 200 {
+                    text = String(text.prefix(199))
+                }
             }
         }
     }
