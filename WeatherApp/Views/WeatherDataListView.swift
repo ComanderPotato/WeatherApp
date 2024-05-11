@@ -22,7 +22,7 @@ struct WeatherDataListView: View {
 
     var body: some View {
         ZStack {
-            Rectangle()
+            Rectangle() // remove this (just for viewing)
             HStack {
                 HStack{
                     Text(locationName)
